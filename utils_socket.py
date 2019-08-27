@@ -3,8 +3,8 @@ import cv2
 import struct
 
 
-def recv_bytes(sock):
-    bytes_size = (320*240+3)*4;  #image with 320*240 + 3 sonar readings
+def recv_bytes(sock, h, w):
+    bytes_size = (w*h)*4;  #image with 320*240 + 3 sonar readings
     data = b''
     while(len(data)<bytes_size):
         # print("length of data is: ", len(data))
@@ -12,21 +12,23 @@ def recv_bytes(sock):
         data += part
     return data
 
-def decode_bytes(data):
-    sonars = struct.unpack('>fff',data[:12])
-    img = np.zeros((240,320,3), np.uint8)
-    for i in range(240):
-        for j in range(320):
-            img[i,j] = [data[(i*320+j)*4+3+12], data[(i*320+j)*4+2+12], data[(i*320+j)*4+1+12]]
-    return sonars, img
+def decode_bytes(data, h, w):
+    #sonars = struct.unpack('>fff',data[:12])
+    img = np.zeros((h,w,3), np.uint8)
+    for i in range(h):
+        for j in range(w):
+            img[i,j] = [data[(i*w+j)*4+3], data[(i*w+j)*4+2], data[(i*w+j)*4+1]]
+    return None, img
+    #return sonars, img
 
-def decode_bytes_rgb(data):
-    sonars = struct.unpack('>fff',data[:12])
-    img = np.zeros((240,320,3), np.uint8)
-    for i in range(240):
-        for j in range(320):
-            img[i,j] = [data[(i*320+j)*4+1+12], data[(i*320+j)*4+2+12], data[(i*320+j)*4+3+12]]
-    return sonars, img
+def decode_bytes_rgb(data, h, w):
+    #sonars = struct.unpack('>fff',data[:12])
+    img = np.zeros((h,w,3), np.uint8)
+    for i in range(h):
+        for j in range(w):
+            img[i,j] = [data[(i*w+j)*4+1], data[(i*w+j)*4+2], data[(i*w+j)*4+3]]
+    return None, img
+    #return sonars, img
 
 def get_obs(sock):
     data = recv_bytes(sock)
