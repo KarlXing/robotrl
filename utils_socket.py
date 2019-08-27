@@ -30,13 +30,13 @@ def decode_bytes_rgb(data, h, w):
     return None, img
     #return sonars, img
 
-def get_obs(sock):
-    data = recv_bytes(sock)
-    return decode_bytes(data)
+def get_obs(sock, h, w):
+    data = recv_bytes(sock, h, w)
+    return decode_bytes(data, h, w)
 
-def get_obs_rgb(sock):
-    data =recv_bytes(sock)
-    return decode_bytes_rgb(data)
+def get_obs_rgb(sock, h, w):
+    data =recv_bytes(sock, h, w)
+    return decode_bytes_rgb(data, h, w)
 
 
 def updateNN(model):
