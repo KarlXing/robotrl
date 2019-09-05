@@ -4,7 +4,7 @@ import struct
 
 
 def recv_bytes(sock, h, w):
-    bytes_size = (w*h)*4;  #image with 320*240 + 3 sonar readings
+    bytes_size = (w*h)*4;  
     data = b''
     while(len(data)<bytes_size):
         # print("length of data is: ", len(data))
